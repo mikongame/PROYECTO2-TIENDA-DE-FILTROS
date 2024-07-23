@@ -1,42 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Filter</title>
+    <title>JD Sports</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <header>
-        <button id="openModal">Open Filters</button>
+        <div class="logo"></div>
+        <nav class="main-nav">
+            <a href="#" class="active">Hombre</a>
+            <a href="#">Mujer</a>
+            <a href="#">Niños</a>
+            <a href="#">Ofertas</a>
+        </nav>
+        <nav class="icons-nav">
+            <div class="icon filter"></div>
+            <div class="icon shopping-basket"></div>
+            <div class="icon user-avatar"></div>
+        </nav>
     </header>
-
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <form id="filterForm">
-                <label for="category">Category:</label>
-                <select id="category" name="category">
-                    <option value="">All</option>
-                    <option value="electronics">Electronics</option>
-                    <option value="clothing">Clothing</option>
-                </select>
-                <label for="price">Price:</label>
-                <input type="number" id="price" name="price" min="0">
-                <button type="submit">Apply Filters</button>
-                <button type="button" id="clearFilters">Clear Filters</button>
-            </form>
-        </div>
-    </div>
-
     <main>
-        <div id="productContainer" class="product-container"></div>
+        <section class="cover"></section>
+        <section class="filters">
+            <button id="toggle-filters">Filtros</button>
+            <div id="filter-modal" class="modal">
+                <h2>Filtrar Productos</h2>
+                <!-- Aquí van los inputs de los filtros -->
+                <button id="apply-filters">Aplicar Filtros</button>
+                <button id="clear-filters">Limpiar Filtros</button>
+            </div>
+        </section>
+        <section class="products" id="products"></section>
     </main>
-
-    <footer>
-        <p>&copy; 2024 Product Filter</p>
-    </footer>
-
+    <footer></footer>
     <script src="scripts/index.js"></script>
 </body>
 </html>

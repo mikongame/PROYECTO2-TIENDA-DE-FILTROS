@@ -1,79 +1,47 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const modal = document.getElementById('modal');
-  const openModalButton = document.getElementById('openModal');
-  const closeButton = document.querySelector('.close-button');
-  const filterForm = document.getElementById('filterForm');
-  const productContainer = document.getElementById('productContainer');
-  const clearFiltersButton = document.getElementById('clearFilters');
+const products = [
+    { id: 1, name: "Producto 1", category: "Hombre" },
+    { id: 2, name: "Producto 2", category: "Mujer" },
+    { id: 3, name: "Producto 3", category: "Niños" },
+    { id: 4, name: "Producto 4", category: "Hombre" },
+    { id: 5, name: "Producto 5", category: "Mujer" },
+    { id: 6, name: "Producto 6", category: "Niños" },
+];
 
-  const products = [
-      { id: 1, name: 'Laptop', category: 'electronics', price: 1000 },
-      { id: 2, name: 'Smartphone', category: 'electronics', price: 500 },
-      { id: 3, name: 'T-shirt', category: 'clothing', price: 20 },
-      // Add more products as needed
-  ];
+document.addEventListener("DOMContentLoaded", () => {
+    const productsContainer = document.getElementById("products");
+    const filterModal = document.getElementById("filter-modal");
+    const toggleFiltersButton = document.getElementById("toggle-filters");
+    const applyFiltersButton = document.getElementById("apply-filters");
+    const clearFiltersButton = document.getElementById("clear-filters");
 
-  const renderProducts = (productList) => {
-      productContainer.innerHTML = '';
-      productList.forEach(product => {
-          const productElement = document.createElement('div');
-          productElement.classList.add('product');
-          productElement.innerHTML = `
-              <h2>${product.name}</h2>
-              <p>Category: ${product.category}</p>
-              <p>Price: $${product.price}</p>
-          `;
-          productContainer.appendChild(productElement);
-      });
-  };
+    function displayProducts(filteredProducts) {
+        productsContainer.innerHTML = "";
+        filteredProducts.forEach(product => {
+            const productDiv = document.createElement("div");
+            productDiv.classList.add("product");
+            productDiv.innerHTML = `<h3>${product.name}</h3><p>${product.category}</p>`;
+            productsContainer.appendChild(productDiv);
+        });
+    }
 
-  const filterProducts = (category, price) => {
-      let filteredProducts = products;
+    function applyFilters() {
+        // Aplica los filtros a los productos
+        // Por ahora, simplemente mostrar todos los productos
+        displayProducts(products);
+    }
 
-      if (category) {
-          filteredProducts = filteredProducts.filter(product => product.category === category);
-      }
+    function clearFilters() {
+        // Limpia los filtros y muestra todos los productos
+        displayProducts(products);
+    }
 
-      if (price) {
-          filteredProducts = filteredProducts.filter(product => product.price <= price);
-      }
+    toggleFiltersButton.addEventListener("click", () => {
+        filterModal.style.display = filterModal.style.display === "none" || filterModal.style.display === "" ? "block" : "none";
+    });
 
-      if (filteredProducts.length === 0) {
-          // Show suggested products
-          const suggestedProducts = products.sort(() => 0.5 - Math.random()).slice(0, 3);
-          renderProducts(suggestedProducts);
-      } else {
-          renderProducts(filteredProducts);
-      }
-  };
+    applyFiltersButton.addEventListener("click", applyFilters);
+    clearFiltersButton.addEventListener("click", clearFilters);
 
-  openModalButton.addEventListener('click', () => {
-      modal.style.display = 'block';
-  });
-
-  closeButton.addEventListener('click', () => {
-      modal.style.display = 'none';
-  });
-
-  window.addEventListener('click', (event) => {
-      if (event.target === modal) {
-          modal.style.display = 'none';
-      }
-  });
-
-  filterForm.addEventListener('submit', (event) => {
-      event.preventDefault();
-      const category = filterForm.category.value;
-      const price = filterForm.price.value;
-      filterProducts(category, price);
-      modal.style.display = 'none';
-  });
-
-  clearFiltersButton.addEventListener('click', () => {
-      filterForm.reset();
-      renderProducts(products);
-  });
-
-  // Initial render
-  renderProducts(products);
+    // Mostrar todos los productos al cargar la página
+    displayProducts(products);
 });
