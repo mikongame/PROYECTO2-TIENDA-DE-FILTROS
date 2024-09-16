@@ -3,38 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JD Sports</title>
+    <title>JD Sports - Filtros de Productos</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>
-        <div class="logo"></div>
-        <nav class="main-nav">
-            <a href="#" class="active">Hombre</a>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <img src="logos/JD_Sports_logo.png" alt="JD Sports Logo">
+        </div>
+        <nav class="nav-links">
+            <a href="#" class="active">Catálogo</a>
+            <a href="#">Hombre</a>
             <a href="#">Mujer</a>
             <a href="#">Niños</a>
             <a href="#">Ofertas</a>
         </nav>
-        <nav class="icons-nav">
-            <div class="icon filter"></div>
-            <div class="icon shopping-basket"></div>
-            <div class="icon user-avatar"></div>
+        <nav class="nav-icons">
+            <img src="icons/icon_filter.png" alt="Filter Icon" id="filterIcon">
+            <img src="icons/icon_shopping_basket.png" alt="Shopping Basket">
+            <img src="icons/icon_avatar.png" alt="User Avatar">
         </nav>
     </header>
-    <main>
-        <section class="cover"></section>
-        <section class="filters">
-            <button id="toggle-filters">Filtros</button>
-            <div id="filter-modal" class="modal">
-                <h2>Filtrar Productos</h2>
-                <!-- Aquí van los inputs de los filtros -->
-                <button id="apply-filters">Aplicar Filtros</button>
-                <button id="clear-filters">Limpiar Filtros</button>
+
+    <!-- Cover Section -->
+    <section class="cover">
+        <img src="main_images/Cover.png" alt="Cover Image">
+    </section>
+
+    <!-- Frame 10 (Oculto por defecto) -->
+    <section id="frame10" class="frame-10 hidden">
+        <div class="filter-buttons">
+            <div class="brandfilter-button">
+                <span>Filtrar por Marca</span>
             </div>
-        </section>
-        <section class="products" id="products"></section>
+            <div class="genderfilter-button">
+                <span>Filtrar por Género</span>
+            </div>
+            <div class="maxprice-button">
+                <span>Filtrar por Precio Máximo</span>
+            </div>
+            <div class="clear-button">
+                <span>Limpiar Filtros</span>
+            </div>
+        </div>
+
+        <!-- Modal de Filtros (dentro de Frame 10) -->
+        <div id="filterModal" class="modal hidden">
+            <div class="modal-content">
+                <h3>Filtros</h3>
+                <form id="filterForm">
+                    <label for="brandFilter">Marca:</label>
+                    <select id="brandFilter" name="brand">
+                        <!-- Opciones dinámicas llenadas en JS -->
+                    </select>
+                    
+                    <label for="genderFilter">Género:</label>
+                    <select id="genderFilter" name="gender">
+                        <!-- Opciones dinámicas llenadas en JS -->
+                    </select>
+
+                    <label for="priceFilter">Precio Máximo:</label>
+                    <input type="number" id="priceFilter" name="maxPrice">
+
+                    <button type="submit">Aplicar Filtros</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Frame 13 -->
+    <section id="frame13" class="frame-13">
+        <div class="ellipse">
+            <img src="icons/icon_arrow_downward.png" alt="Arrow Icon" class="arrow-icon" id="arrowIcon">
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <main class="products-section">
+        <div id="productContainer" class="product-grid">
+            <!-- Productos se renderearán dinámicamente aquí -->
+        </div>
     </main>
-    <footer></footer>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-section">
+            <h3>Compra con JD</h3>
+            <ul>
+                <li>Guía de tallas</li>
+                <li>Buscador de tallas</li>
+                <li>Descuento estudiantes</li>
+                <li>Calendario lanzamientos</li>
+                <li>Inscribete a JDX</li>
+                <li>JD Blog</li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>Atención al cliente</h3>
+            <ul>
+                <li>Preguntas frecuentes</li>
+                <li>Envíos y devoluciones</li>
+                <li>Seguimiento de envío</li>
+                <li>Contacto</li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>Aviso legal</h3>
+            <ul>
+                <li>Términos y condiciones</li>
+                <li>Promociones y condiciones</li>
+                <li>Política de privacidad</li>
+                <li>Política de Cookies</li>
+                <li>Ajustes de Cookies</li>
+                <li>Accesibilidad</li>
+            </ul>
+        </div>
+    </footer>
+
     <script src="scripts/index.js"></script>
 </body>
 </html>
