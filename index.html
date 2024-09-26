@@ -15,10 +15,10 @@
         </div>
         <nav class="nav-links">
             <a href="#" class="active">Catálogo</a>
-            <a href="#">Hombre</a>
-            <a href="#">Mujer</a>
-            <a href="#">Niños</a>
-            <a href="#">Ofertas</a>
+            <a href="#hombre">Hombre</a>
+            <a href="#mujer">Mujer</a>
+            <a href="#niños">Niños</a>
+            <a href="#ofertas">Ofertas</a>
         </nav>
         <nav class="nav-icons">
             <img src="icons/icon_filter.png" alt="Filter Icon" id="filterIcon">
@@ -56,19 +56,21 @@
                 <form id="filterForm">
                     <label for="brandFilter">Marca:</label>
                     <select id="brandFilter" name="brand">
+                        <option value="">Todos</option>
                         <!-- Opciones dinámicas llenadas en JS -->
                     </select>
                     
                     <label for="genderFilter">Género:</label>
                     <select id="genderFilter" name="gender">
+                        <option value="">Todos</option>
                         <!-- Opciones dinámicas llenadas en JS -->
                     </select>
-
+                
                     <label for="priceFilter">Precio Máximo:</label>
-                    <input type="number" id="priceFilter" name="maxPrice">
-
+                    <input type="number" id="priceFilter" name="maxPrice" placeholder="Sin Límite">
+                
                     <button type="submit">Aplicar Filtros</button>
-                </form>
+                </form>                
             </div>
         </div>
     </section>
