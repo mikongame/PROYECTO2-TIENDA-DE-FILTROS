@@ -22,6 +22,8 @@ const products = [
 const frame10 = document.getElementById('frame10');
 const frame13 = document.getElementById('frame13');
 const filterModal = document.getElementById('filterModal');
+const filterForm = document.getElementById('filterForm');
+const modalContent = document.querySelector('.modal-content');
 const brandFilter = document.getElementById('brandFilter');
 const genderFilter = document.getElementById('genderFilter');
 const priceFilter = document.getElementById('priceFilter');
@@ -31,6 +33,7 @@ const clearButton = document.querySelector('.clear-button');
 const brandFilterButton = document.querySelector('.brandfilter-button');
 const genderFilterButton = document.querySelector('.genderfilter-button');
 const priceFilterButton = document.querySelector('.maxprice-button');
+const catalogoBtn = document.getElementById('catalogo'); // Botón de catálogo
 
 // Otros elementos de filtro rápido
 const hombreBtn = document.getElementById('hombre');
@@ -38,11 +41,11 @@ const mujerBtn = document.getElementById('mujer');
 const niñosBtn = document.getElementById('niños');
 const ofertasBtn = document.getElementById('ofertas');
 
-// Inicializar opciones de filtros (marcas, géneros, precios)
+// Inicializar opciones de filtros (marcas, géneros)
 function populateFilters() {
     const brands = [...new Set(products.map(product => product.brand))];
     const genders = [...new Set(products.map(product => product.gender))];
-    
+
     // Añadir la opción genérica "Todos"
     brandFilter.innerHTML = '<option value="">Todos</option>' + brands.map(brand => `<option value="${brand}">${brand}</option>`).join('');
     genderFilter.innerHTML = '<option value="">Todos</option>' + genders.map(gender => `<option value="${gender}">${gender}</option>`).join('');
@@ -110,23 +113,73 @@ function updateFilterButtons() {
     const hasFiltersApplied = selectedBrand || selectedGender || maxPrice;
     clearButton.style.display = hasFiltersApplied ? 'inline-block' : 'none';
 
-    // Mostrar frame10 si hay filtros aplicados
-    frame10.classList.toggle('hidden', !hasFiltersApplied);
-
-    // Cambiar ícono de filtro
-    filterIcon.src = hasFiltersApplied || !frame10.classList.contains('hidden') ? 'icons/yellow_icon_filter.png' : 'icons/icon_filter.png';
+    // Cambiar ícono de filtro basado en filtros activos
+    filterIcon.src = hasFiltersApplied ? 'icons/yellow_icon_filter.png' : 'icons/icon_filter.png';
 }
 
-// Alternar visibilidad de modal de filtro y frame10
-function toggleFilter() {
-    filterModal.classList.toggle('hidden');
+// Función para alternar la visibilidad del modal
+function toggleModal() {
+    // Mostrar frame10 si está oculto
+    if (frame10.classList.contains('hidden')) {
+        toggleFrame10(); // Mostrar frame10 antes de mostrar el modal
+    }
+    filterModal.classList.toggle('hidden'); // Mostrar/ocultar el modal
+}
+
+// Función para alternar la visibilidad de frame10 y cambiar la flecha
+function toggleFrame10() {
+    const isVisible = !frame10.classList.contains('hidden');
     frame10.classList.toggle('hidden');
-    frame13.style.top = frame10.classList.contains('hidden') ? '269px' : '367px';
+    arrowIcon.src = isVisible ? 'icons/icon_arrow_downward.png' : 'icons/icon_arrow_upward.png';
+    frame13.style.top = isVisible ? '269px' : '367px';
+}
+
+// Mostrar el modal al hacer clic en filterIcon
+filterIcon.addEventListener('click', () => {
+    toggleModal(); // Mostrar/ocultar el modal al hacer clic en el ícono de filtro
+});
+
+// Mostrar el modal cuando se haga clic en los botones de filtro en frame10, excepto el botón de limpiar
+[brandFilterButton, genderFilterButton, priceFilterButton].forEach(button => {
+    button.addEventListener('click', () => {
+        if (filterModal.classList.contains('hidden')) {
+            toggleModal(); // Mostrar el modal si está oculto
+        }
+    });
+});
+
+// Mostrar modal directamente si no hay filtros activos al hacer clic en la flecha hacia abajo
+arrowIcon.addEventListener('click', () => {
+    const selectedBrand = brandFilter.value;
+    const selectedGender = genderFilter.value;
+    const maxPrice = parseFloat(priceFilter.value);
+    const hasFiltersApplied = selectedBrand || selectedGender || maxPrice;
+
+    if (!hasFiltersApplied) {
+        toggleModal(); // Mostrar el modal directamente si no hay filtros activos
+    } else {
+        toggleFrame10(); // Si hay filtros, solo alternar frame10
+    }
+});
+
+// Cerrar modal si se hace clic fuera de su contenido
+window.addEventListener('click', (e) => {
+    if (!filterModal.classList.contains('hidden') && !modalContent.contains(e.target) && e.target !== filterIcon) {
+        filterModal.classList.add('hidden'); // Ocultar modal si se hace clic fuera
+    }
+});
+
+// Limpiar filtros antes de aplicar uno nuevo
+function resetFilters() {
+    brandFilter.value = '';
+    genderFilter.value = '';
+    priceFilter.value = '';
 }
 
 // Asignar eventos de filtro rápido
 [hombreBtn, mujerBtn, niñosBtn, ofertasBtn].forEach(btn => {
     btn.addEventListener('click', (e) => {
+        resetFilters(); // Limpiar filtros primero
         switch (e.target.id) {
             case 'hombre':
                 genderFilter.value = 'Hombre';
@@ -142,25 +195,37 @@ function toggleFilter() {
                 break;
         }
         applyFilters();
-        frame10.classList.remove('hidden');
-        updateFilterButtons();
+        if (frame10.classList.contains('hidden')) {
+            toggleFrame10(); // Mostrar frame10 si está oculto
+        }
+        updateFilterButtons(); // Actualizar los botones de filtro
     });
 });
 
-// Mostrar Frame 10 y alternar flecha entre arriba/abajo
-arrowIcon.addEventListener('click', () => {
-    const isFrame10Visible = !frame10.classList.contains('hidden');
-    frame10.classList.toggle('hidden');
-    frame13.style.top = isFrame10Visible ? '269px' : '367px'; // Ajustar posición del frame 13
-    arrowIcon.src = isFrame10Visible ? 'icons/icon_arrow_downward.png' : 'icons/icon_arrow_upward.png'; // Cambiar ícono
-    updateFilterButtons();
+// Limpiar filtros y mostrar todos los productos al hacer clic en el botón de catálogo
+catalogoBtn.addEventListener('click', (e) => {
+    e.preventDefault(); // Evitar comportamiento por defecto del enlace
+    resetFilters(); // Limpiar los filtros
+    renderProducts(products); // Mostrar todos los productos
+    updateFilterButtons(); // Actualizar estado del ícono de filtro y botones
+    filterModal.classList.add('hidden'); // Asegurarse de que el modal esté oculto
+    if (!frame10.classList.contains('hidden')) {
+        toggleFrame10(); // Ocultar frame10 si está visible
+    }
+    frame13.style.top = '269px'; // Restaurar la posición del frame13
+});
+
+// Evento para enviar el formulario y aplicar los filtros
+filterForm.addEventListener('submit', (e) => {
+    e.preventDefault(); // Evitar que el formulario recargue la página
+    applyFilters(); // Aplicar los filtros
+    filterModal.classList.add('hidden'); // Ocultar modal tras aplicar
+    updateFilterButtons(); // Actualizar los botones de filtro tras aplicar
 });
 
 // Limpiar filtros
 clearButton.addEventListener('click', () => {
-    brandFilter.value = '';
-    genderFilter.value = '';
-    priceFilter.value = '';
+    resetFilters();
     renderProducts(products); // Mostrar todos los productos
     updateFilterButtons(); // Actualizar botones y estado
     frame13.style.top = '269px'; // Restaurar posición de frame13
@@ -172,3 +237,11 @@ document.addEventListener('DOMContentLoaded', () => {
     populateFilters(); // Rellenar filtros de marca, género y precio
     updateFilterButtons(); // Asegurarse de que los botones estén en el estado correcto al cargar
 });
+
+
+
+
+
+
+
+
