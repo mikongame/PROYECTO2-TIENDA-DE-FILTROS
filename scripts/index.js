@@ -9,13 +9,7 @@ const products = [
     { id: 7, brand: 'Nike Original', name: 'Dunk Low', price: 100, gender: 'Hombre', image: 'product_images/Dunk_Low.png' },
     { id: 8, brand: 'Adidas Original', name: 'Gazelle', price: 90, gender: 'Niños', image: 'product_images/Gazelle.png' },
     { id: 9, brand: 'Nike Original', name: 'Air Max SC', price: 150, gender: 'Mujer', image: 'product_images/Air_Max_SC.png' },
-    { id: 10, brand: 'Adidas Original', name: 'Handball Spezial', price: 120, gender: 'Hombre', image: 'product_images/Handball_Spezial.png' },
-    { id: 11, brand: 'Nike Original', name: 'Air Force', price: 130, gender: 'Hombre', image: 'product_images/Air_Force.png' },
-    { id: 12, brand: 'New Balance', name: 'NB 9060', price: 100, gender: 'Niños', image: 'product_images/NB_9060_2.png' },
-    { id: 13, brand: 'New Balance', name: 'NB 480', price: 150, gender: 'Mujer', image: 'product_images/NB_480.png' },
-    { id: 14, brand: 'Nike Original', name: 'Full Force Low', price: 70, gender: 'Niños', image: 'product_images/Full_Force_Low.png' },
-    { id: 15, brand: 'Nike Original', name: 'Air Max SC', price: 160, gender: 'Niños', image: 'product_images/Air_Max_SC_2.png' },
-    { id: 16, brand: 'Adidas Original', name: 'Handball Spezial', price: 140, gender: 'Mujer', image: 'product_images/Handball_Spezial_2.png' }
+    { id: 10, brand: 'Adidas Original', name: 'Handball Spezial', price: 120, gender: 'Hombre', image: 'product_images/Handball_Spezial.png' }
 ];
 
 // DOM Elements
@@ -69,7 +63,6 @@ function renderProducts(filteredProducts) {
                         <span class="name">${product.name}</span>
                         <span class="price">${product.price} €</span>
                     </div>
-                    <div class="buy-button">Comprar</div>
                 </div>
             </div>
         `;
@@ -142,29 +135,19 @@ filterIcon.addEventListener('click', () => {
 // Mostrar el modal cuando se haga clic en los botones de filtro en frame10, excepto el botón de limpiar
 [brandFilterButton, genderFilterButton, priceFilterButton].forEach(button => {
     button.addEventListener('click', () => {
-        if (filterModal.classList.contains('hidden')) {
-            toggleModal(); // Mostrar el modal si está oculto
-        }
+        toggleModal(); // Mostrar/ocultar el modal
     });
 });
 
-// Mostrar modal directamente si no hay filtros activos al hacer clic en la flecha hacia abajo
+// Alternar solo frame10 al hacer clic en arrowIcon (sin interferir con el modal)
 arrowIcon.addEventListener('click', () => {
-    const selectedBrand = brandFilter.value;
-    const selectedGender = genderFilter.value;
-    const maxPrice = parseFloat(priceFilter.value);
-    const hasFiltersApplied = selectedBrand || selectedGender || maxPrice;
-
-    if (!hasFiltersApplied) {
-        toggleModal(); // Mostrar el modal directamente si no hay filtros activos
-    } else {
-        toggleFrame10(); // Si hay filtros, solo alternar frame10
-    }
+    toggleFrame10(); // Solo alternar frame10 al hacer clic en la flecha
 });
 
 // Cerrar modal si se hace clic fuera de su contenido
 window.addEventListener('click', (e) => {
     if (!filterModal.classList.contains('hidden') && !modalContent.contains(e.target) && e.target !== filterIcon) {
+        console.log('Clic fuera del modal, cerrando modal');
         filterModal.classList.add('hidden'); // Ocultar modal si se hace clic fuera
     }
 });
@@ -237,11 +220,3 @@ document.addEventListener('DOMContentLoaded', () => {
     populateFilters(); // Rellenar filtros de marca, género y precio
     updateFilterButtons(); // Asegurarse de que los botones estén en el estado correcto al cargar
 });
-
-
-
-
-
-
-
-
