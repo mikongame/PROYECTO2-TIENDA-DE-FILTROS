@@ -55,6 +55,20 @@ function populateFilters() {
 function renderProducts(filteredProducts) {
     const productContainer = document.getElementById('productContainer');
     productContainer.innerHTML = '';
+
+    if (filteredProducts.length === 0) {
+        // Si no hay productos filtrados, mostrar 3 productos aleatorios
+        const randomProducts = products.sort(() => 0.5 - Math.random()).slice(0, 3);
+        const suggestionMessage = `<div id="noProducts" style="display: contents;"><div id="noProductsMessage" style="display: flex; margin: 20px; padding: 15px; gap: 10px; background: #F6F6F6; border: 1px solid #9B9B9B; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25); border-radius: 5px; font-family: 'Inter', sans-serif; font-size: 13px; color: #000; justify-content: center; align-self: center;"><p>No se encontraron productos con los filtros aplicados. Aquí tienes algunos productos sugeridos:</p></div></div>`;
+        productContainer.innerHTML = suggestionMessage;
+        filteredProducts = randomProducts;
+    }
+
+    const cardsContainer = document.createElement('div');
+    cardsContainer.id = 'cardsContainer';
+    cardsContainer.classList.add('product-grid');
+    productContainer.appendChild(cardsContainer);
+
     filteredProducts.forEach(product => {
         const productCard = `
             <div class="product-card">
@@ -73,7 +87,7 @@ function renderProducts(filteredProducts) {
                 </div>
             </div>
         `;
-        productContainer.innerHTML += productCard;
+        cardsContainer.innerHTML += productCard;
     });
 }
 
@@ -92,6 +106,7 @@ function applyFilters() {
     renderProducts(filteredProducts);
     updateFilterButtons(); // Actualizar botones de filtro tras aplicar filtros
 }
+
 
 // Función para actualizar los botones de filtro y cambiar el ícono de filtro
 function updateFilterButtons() {

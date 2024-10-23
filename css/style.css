@@ -53,7 +53,6 @@ body {
   position: relative;
   height: 90px;
   left: 0px;
-   /* Ajustado para estar por encima de Frame 13 */
   background: #EFEFEF;
 }
 
@@ -85,10 +84,9 @@ body {
 
 /* Frame 13 */
 .frame-13 {
-  /* position: absolute; */
   height: 36px;
   left: 0px;
-  top: 269px; /* Cambia si Frame 10 está visible */
+  top: 269px;
   background: #F1F1F1;
   mix-blend-mode: normal;
 }
@@ -101,11 +99,11 @@ body {
   left: 683px;
   top: 1px;
   background: #F1F1F1;
-  border-radius: 50%; /* Crea una elipse perfecta */
+  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1; /* Asegura que esté en el fondo respecto al ícono */
+  z-index: 1;
 }
 
 /* Icono de flecha hacia abajo/arriba */
@@ -113,11 +111,12 @@ body {
   width: 40px;
   height: 40px;
   position: absolute;
-  z-index: 2; /* Coloca el ícono sobre la elipse */
-  object-fit: contain; /* Ajusta la imagen para que mantenga sus proporciones */
+  z-index: 2;
+  object-fit: contain;
 }
 
 /* Products Section */
+
 .product-grid {
   position: relative;
   display: flex;
@@ -179,7 +178,6 @@ body {
   font-family: 'Inter', sans-serif;
   font-size: 16px;
   color: #000000;
-  /* align-content: end; */
 }
 
 .price-container {
@@ -247,7 +245,6 @@ body {
   display: none;
 }
 
-
 /* Footer */
 .footer {
   display: flex;
@@ -268,4 +265,126 @@ body {
 
 .footer-section li {
   margin-bottom: 10px;
+}
+
+/* Media Queries para diferentes tamaños de pantalla */
+
+/* Min-width: 581px y max-width: 768px */
+@media (min-width: 581px) and (max-width: 768px) {
+  body {
+    width: 100%;
+    margin: 0;
+  }
+
+  .header {
+    flex-direction: column;
+    height: auto;
+    padding: 20px;
+  }
+
+  .nav-links a {
+    margin-right: 15px;
+    font-size: 14px;
+  }
+
+  .product-card {
+    width: 250px;
+    height: auto;
+  }
+
+  .image-container {
+    width: 250px;
+    height: 250px;
+  }
+
+  .product-info {
+    width: 250px;
+  }
+
+  .buy-button {
+    width: 250px;
+    font-size: 20px;
+  }
+}
+
+/* Min-width: 376px y max-width: 580px */
+@media (min-width: 376px) and (max-width: 580px) {
+  body {
+    width: 100%;
+    margin: 0;
+  }
+
+  .header {
+    flex-direction: column;
+    height: auto;
+    padding: 15px;
+  }
+
+  .nav-links a {
+    margin-right: 10px;
+    font-size: 12px;
+  }
+
+  .product-card {
+    width: 200px;
+    height: auto;
+  }
+
+  .image-container {
+    width: 200px;
+    height: 200px;
+  }
+
+  .product-info {
+    width: 200px;
+  }
+
+  .buy-button {
+    width: 200px;
+    font-size: 18px;
+  }
+}
+
+/* Max-width: 375px */
+@media (max-width: 375px) {
+  body {
+    width: 100%;
+    margin: 0;
+  }
+
+  .header {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+  }
+
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-links a {
+    margin: 5px 0;
+    font-size: 12px;
+  }
+
+  .product-card {
+    width: 150px;
+    height: auto;
+  }
+
+  .image-container {
+    width: 150px;
+    height: 150px;
+  }
+
+  .product-info {
+    width: 150px;
+  }
+
+  .buy-button {
+    width: 150px;
+    font-size: 16px;
+  }
 }
