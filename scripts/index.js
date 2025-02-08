@@ -189,8 +189,19 @@ window.addEventListener('click', (e) => {
 
 // Mostrar el modal al hacer clic en filterIcon
 filterIcon.addEventListener('click', () => {
-    filterModal.classList.toggle('hidden'); // Mostrar/ocultar el modal al hacer clic en el ícono de filtro
+    if (filterModal.classList.contains('hidden')) {
+        frame10.classList.remove('hidden');  // Asegura que frame10 esté visible
+        filterModal.classList.remove('hidden'); // Muestra el modal siempre
+        arrowIcon.src = 'icons/icon_arrow_upward.png'; // Cambia la flecha hacia arriba
+        frame13.style.top = '367px'; // Ajusta la posición de frame13
+    } else {
+        filterModal.classList.add('hidden'); // Oculta el modal
+        frame10.classList.add('hidden'); // Oculta frame10 si no hay filtros activos
+        arrowIcon.src = 'icons/icon_arrow_downward.png'; // Cambia la flecha hacia abajo
+        frame13.style.top = '269px'; // Restaura la posición de frame13
+    }
 });
+
 
 // Limpiar filtros antes de aplicar uno nuevo
 function resetFilters() {
@@ -253,6 +264,14 @@ clearButton.addEventListener('click', () => {
     updateFilterButtons(); // Actualizar botones y estado
     frame13.style.top = '269px'; // Restaurar posición de frame13
 });
+
+const menuIcon = document.getElementById('menuIcon');
+const navLinks = document.querySelector('.nav-links');
+
+menuIcon.addEventListener('click', () => {
+  navLinks.classList.toggle('show'); // Alternar la visibilidad del menú
+});
+
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', () => {

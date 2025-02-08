@@ -6,7 +6,8 @@
 }
 
 body {
-  width: 1440px;
+  width: 100%;
+  max-width: 1440px;
   margin: 0 auto;
 }
 
@@ -133,7 +134,8 @@ body {
   align-items: center;
   padding: 0px;
   gap: 7px;
-  width: 320px;
+  width: 100%;
+  max-width: 320px;
   height: 487px;
   background: #FFFFFF;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
@@ -234,6 +236,8 @@ body {
 }
 
 .modal-content {
+  max-height: 80vh;
+  overflow-y: auto;
   background: #fff;
   padding: 20px;
   border-radius: 10px;
@@ -269,7 +273,6 @@ body {
 
 /* Media Queries para diferentes tamaños de pantalla */
 
-/* Min-width: 581px y max-width: 768px */
 @media (min-width: 581px) and (max-width: 768px) {
   body {
     width: 100%;
@@ -305,9 +308,39 @@ body {
     width: 250px;
     font-size: 20px;
   }
+
+  .menu-icon {
+    display: block;
+    cursor: pointer;
+    padding: 10px;
+  }
+
+  .menu-icon img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background-color: #2C2C2C;
+    padding: 10px;
+    position: absolute;
+    top: 73px;
+    left: 0;
+    width: 100%;
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+
+  .nav-links a {
+    text-align: center;
+  }
 }
 
-/* Min-width: 376px y max-width: 580px */
+
 @media (min-width: 376px) and (max-width: 580px) {
   body {
     width: 100%;
@@ -343,9 +376,24 @@ body {
     width: 200px;
     font-size: 18px;
   }
+
+  .menu-icon {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+
+  .nav-links a {
+    padding: 10px;
+  }
 }
 
-/* Max-width: 375px */
 @media (max-width: 375px) {
   body {
     width: 100%;
@@ -359,9 +407,13 @@ body {
   }
 
   .nav-links {
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
+  }
+
+  .nav-links.show {
+    display: flex;
   }
 
   .nav-links a {
@@ -386,5 +438,9 @@ body {
   .buy-button {
     width: 150px;
     font-size: 16px;
+  }
+
+  .menu-icon {
+    display: block;
   }
 }

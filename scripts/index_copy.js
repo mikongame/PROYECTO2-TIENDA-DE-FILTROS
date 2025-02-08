@@ -55,6 +55,20 @@ function populateFilters() {
 function renderProducts(filteredProducts) {
     const productContainer = document.getElementById('productContainer');
     productContainer.innerHTML = '';
+
+    if (filteredProducts.length === 0) {
+        // Si no hay productos filtrados, mostrar 3 productos aleatorios
+        const randomProducts = products.sort(() => 0.5 - Math.random()).slice(0, 3);
+        const suggestionMessage = `<div id="noProducts" style="display: contents;"><div id="noProductsMessage" style="display: flex; margin: 20px; padding: 15px; gap: 10px; background: #F6F6F6; border: 1px solid #9B9B9B; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25); border-radius: 5px; font-family: 'Inter', sans-serif; font-size: 13px; color: #000; justify-content: center; align-self: center;"><p>No se encontraron productos con los filtros aplicados. Aquí tienes algunos productos sugeridos:</p></div></div>`;
+        productContainer.innerHTML = suggestionMessage;
+        filteredProducts = randomProducts;
+    }
+
+    const cardsContainer = document.createElement('div');
+    cardsContainer.id = 'cardsContainer';
+    cardsContainer.classList.add('product-grid');
+    productContainer.appendChild(cardsContainer);
+
     filteredProducts.forEach(product => {
         const productCard = `
             <div class="product-card">
@@ -73,7 +87,7 @@ function renderProducts(filteredProducts) {
                 </div>
             </div>
         `;
-        productContainer.innerHTML += productCard;
+        cardsContainer.innerHTML += productCard;
     });
 }
 
@@ -92,6 +106,7 @@ function applyFilters() {
     renderProducts(filteredProducts);
     updateFilterButtons(); // Actualizar botones de filtro tras aplicar filtros
 }
+
 
 // Función para actualizar los botones de filtro y cambiar el ícono de filtro
 function updateFilterButtons() {
@@ -134,31 +149,59 @@ function toggleFrame10() {
     frame13.style.top = isVisible ? '269px' : '367px';
 }
 
-// Mostrar el modal al hacer clic en filterIcon
-filterIcon.addEventListener('click', () => {
-    toggleModal(); // Mostrar/ocultar el modal al hacer clic en el ícono de filtro
-});
-
-// Mostrar el modal cuando se haga clic en los botones de filtro en frame10, excepto el botón de limpiar
+// Mostrar el modal y el formulario cuando se haga clic en los botones de filtro en frame10
 [brandFilterButton, genderFilterButton, priceFilterButton].forEach(button => {
-    button.addEventListener('click', () => {
-        if (filterModal.classList.contains('hidden')) {
-            toggleModal(); // Mostrar el modal si está oculto
+    button.addEventListener('click', (event) => {
+        event.stopPropagation();  // Prevenir la propagación del evento
+
+        // Asegurarse de que el modal y el formulario de filtro estén visibles
+        filterModal.classList.remove('hidden');
+        filterForm.classList.remove('hidden');
+
+        // Mostrar frame10 si está oculto
+        if (frame10.classList.contains('hidden')) {
+            frame10.classList.remove('hidden');
+            arrowIcon.src = 'icons/icon_arrow_upward.png';
+            frame13.style.top = '367px';
         }
     });
 });
 
+
 // Alternar solo frame10 al hacer clic en arrowIcon (sin interferir con el modal)
 arrowIcon.addEventListener('click', () => {
-    toggleFrame10(); // Solo alternar frame10 al hacer clic en la flecha
+    const isVisible = !frame10.classList.contains('hidden');
+    frame10.classList.toggle('hidden');
+    arrowIcon.src = isVisible ? 'icons/icon_arrow_downward.png' : 'icons/icon_arrow_upward.png';
+    frame13.style.top = isVisible ? '269px' : '367px';
 });
 
-// Cerrar modal si se hace clic fuera de su contenido
+// Cerrar modal si se hace clic fuera de su contenido, excepto en los botones de filtro
 window.addEventListener('click', (e) => {
-    if (!filterModal.classList.contains('hidden') && !modalContent.contains(e.target) && e.target !== filterIcon) {
+    if (!filterModal.classList.contains('hidden') &&
+        !modalContent.contains(e.target) &&
+        e.target !== filterIcon &&
+        ![brandFilterButton, genderFilterButton, priceFilterButton].includes(e.target)
+    ) {
         filterModal.classList.add('hidden'); // Ocultar modal si se hace clic fuera
     }
 });
+
+// Mostrar el modal al hacer clic en filterIcon
+filterIcon.addEventListener('click', () => {
+    if (filterModal.classList.contains('hidden')) {
+        frame10.classList.remove('hidden');  // Asegura que frame10 esté visible
+        filterModal.classList.remove('hidden'); // Muestra el modal siempre
+        arrowIcon.src = 'icons/icon_arrow_upward.png'; // Cambia la flecha hacia arriba
+        frame13.style.top = '367px'; // Ajusta la posición de frame13
+    } else {
+        filterModal.classList.add('hidden'); // Oculta el modal
+        frame10.classList.add('hidden'); // Oculta frame10 si no hay filtros activos
+        arrowIcon.src = 'icons/icon_arrow_downward.png'; // Cambia la flecha hacia abajo
+        frame13.style.top = '269px'; // Restaura la posición de frame13
+    }
+});
+
 
 // Limpiar filtros antes de aplicar uno nuevo
 function resetFilters() {
@@ -228,11 +271,3 @@ document.addEventListener('DOMContentLoaded', () => {
     populateFilters(); // Rellenar filtros de marca, género y precio
     updateFilterButtons(); // Asegurarse de que los botones estén en el estado correcto al cargar
 });
-
-
-
-
-
-
-
-
