@@ -35,6 +35,7 @@ const genderFilterButton = document.querySelector('.genderfilter-button');
 const priceFilterButton = document.querySelector('.maxprice-button');
 const catalogoBtn = document.getElementById('catalogo'); // Botón de catálogo
 
+
 // Otros elementos de filtro rápido
 const hombreBtn = document.getElementById('hombre');
 const mujerBtn = document.getElementById('mujer');
@@ -265,13 +266,20 @@ clearButton.addEventListener('click', () => {
     frame13.style.top = '269px'; // Restaurar posición de frame13
 });
 
+
 const menuIcon = document.getElementById('menuIcon');
 const navLinks = document.querySelector('.nav-links');
 
 menuIcon.addEventListener('click', () => {
-  navLinks.classList.toggle('show'); // Alternar la visibilidad del menú
+  navLinks.classList.toggle('show');
 });
 
+// Cerrar el menú al hacer clic fuera de él
+document.addEventListener('click', (event) => {
+  if (!menuIcon.contains(event.target) && !navLinks.contains(event.target)) {
+    navLinks.classList.remove('show');
+  }
+});
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', () => {
